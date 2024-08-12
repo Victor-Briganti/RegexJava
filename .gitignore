@@ -1,0 +1,36 @@
+# Maven target directory
+target/
+
+# IntelliJ IDEA specific files
+.idea/
+*.iml
+
+# Eclipse specific files
+.project
+.classpath
+.settings/
+
+# NetBeans specific files
+nbproject/
+
+# VScode specific files
+.vscode
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Maven wrapper files (if used)
+.mvn/wrapper/
+
+# Other IDE or build system files
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Exclude Java generated files
+*.class
