@@ -1,5 +1,9 @@
 package org.lexer;
 
+/**
+ * Represents the various types of tokens that can be identified by the
+ * lexer.
+ */
 public enum Token {
     PARENTHESE_OPEN, // (
     PARENTHESE_CLOSE, // )

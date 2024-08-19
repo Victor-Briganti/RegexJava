@@ -1,10 +1,26 @@
 package org.lexer;
 
+/**
+ * Lexer is a class that processes an input string to produce tokens based on
+ * predefined symbols and patterns. It is used to analyze and tokenize the
+ * input.
+ */
 public class Lexer {
+    // The input string to be tokenized.
     String input;
+
+    // Current position within the input string.
     Integer curPosition;
+
+    // The last symbol that was consumed.
     Character consumedSymbol;
 
+    /**
+     * Creates a token based on the provided symbol.
+     *
+     * @param symbol The character to be tokenized.
+     * @return The corresponding Token.
+     */
     Token createToken(Character symbol) {
         switch (symbol) {
             case '(':
@@ -22,17 +38,34 @@ public class Lexer {
         }
     }
 
+    /**
+     * Initializes the Lexer with the input string.
+     *
+     * @param input The input string to be tokenized. Must not be null.
+     */
     public Lexer(String input) {
-        assert input != null;
+        assert input != null : "Input must not be null";
         this.input = input;
         this.curPosition = 0;
     }
 
+    /**
+     * Sets a new input string for the Lexer.
+     *
+     * @param input The new input string.
+     */
     public void setInput(String input) {
         this.input = input;
     }
 
-    // Consumes the char at the current position and returns its equivalent token.
+    /**
+     * Consumes the character at the current position and returns its corresponding
+     * token.
+     * Updates the position and consumed symbol accordingly.
+     *
+     * @return The token corresponding to the current character or EOF if the end of
+     *         input is reached.
+     */
     public Token consume() {
         if (curPosition >= input.length()) {
             return Token.EOF;
@@ -63,7 +96,15 @@ public class Lexer {
         return token;
     }
 
-    // Returns the token of the current position.
+    /**
+     * Peeks at the character at the current position and returns its corresponding
+     * token
+     * without advancing the position. Handles special cases where the character is
+     * a backslash ('\\').
+     *
+     * @return The token corresponding to the current character or EOF if the end of
+     *         input is reached.
+     */
     public Token peek() {
         if (curPosition >= input.length()) {
             return Token.EOF;
@@ -90,6 +131,11 @@ public class Lexer {
         return token;
     }
 
+    /**
+     * Returns the last consumed symbol.
+     *
+     * @return The character that was last consumed.
+     */
     public Character getConsumedSymbol() {
         return consumedSymbol;
     }
