@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import org.junit.Test;
 
 public class RegexNodeTest {
+    // Variables used to redirect the output
     ByteArrayOutputStream byteOutput;
     PrintStream printStream;
     PrintStream commonOut;
@@ -38,7 +39,7 @@ public class RegexNodeTest {
     @Test
     public void starNode() {
         CharNode charNode = new CharNode(null, null, 'a');
-        StarNode starNode = new StarNode(charNode, null);
+        StarNode starNode = new StarNode(null, charNode);
         starNode.printNode();
 
         int result = byteOutput.toString().compareTo("a*");
@@ -48,7 +49,8 @@ public class RegexNodeTest {
     @Test
     public void unionNode() {
         CharNode charNode = new CharNode(null, null, 'a');
-        UnionNode unionNode = new UnionNode(charNode, charNode);
+        UnionAuxNode unionAuxNode = new UnionAuxNode(charNode, charNode);
+        UnionNode unionNode = new UnionNode(null, unionAuxNode);
         unionNode.printNode();
 
         int result = byteOutput.toString().compareTo("a|a");
@@ -58,8 +60,9 @@ public class RegexNodeTest {
     @Test
     public void groupNode() {
         CharNode charNode = new CharNode(null, null, 'a');
-        UnionNode unionNode = new UnionNode(charNode, charNode);
-        GroupNode groupNode = new GroupNode(unionNode, null);
+        UnionAuxNode unionAuxNode = new UnionAuxNode(charNode, charNode);
+        UnionNode unionNode = new UnionNode(null, unionAuxNode);
+        GroupNode groupNode = new GroupNode(null, unionNode);
         groupNode.printNode();
 
         int result = byteOutput.toString().compareTo("(a|a)");
@@ -69,8 +72,9 @@ public class RegexNodeTest {
     @Test
     public void elementaryNode() {
         CharNode charNode = new CharNode(null, null, 'a');
-        UnionNode unionNode = new UnionNode(charNode, charNode);
-        GroupNode groupNode = new GroupNode(unionNode, null);
+        UnionAuxNode unionAuxNode = new UnionAuxNode(charNode, charNode);
+        UnionNode unionNode = new UnionNode(null, unionAuxNode);
+        GroupNode groupNode = new GroupNode(null, unionNode);
         ElementaryNode elementNode = new ElementaryNode(groupNode, null);
         elementNode.printNode();
 
@@ -81,8 +85,9 @@ public class RegexNodeTest {
     @Test
     public void basicNode() {
         CharNode charNode = new CharNode(null, null, 'a');
-        UnionNode unionNode = new UnionNode(charNode, charNode);
-        GroupNode groupNode = new GroupNode(unionNode, null);
+        UnionAuxNode unionAuxNode = new UnionAuxNode(charNode, charNode);
+        UnionNode unionNode = new UnionNode(null, unionAuxNode);
+        GroupNode groupNode = new GroupNode(null, unionNode);
         BasicNode basicNode = new BasicNode(groupNode, null);
         basicNode.printNode();
 
