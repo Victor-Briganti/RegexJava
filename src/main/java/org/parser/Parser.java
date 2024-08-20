@@ -8,13 +8,13 @@ import org.nodes.*;
  */
 public class Parser {
     // Lexer to tokenize the input string
-    Lexer lexer;
+    private Lexer lexer;
 
     // Pointer for the AST tree
-    RegexNode head;
+    private RegexNode head;
 
     // Error generated during the parser
-    ErrorType error;
+    private ErrorType error;
 
     /**
      * The start symbol of the grammar, represents the top-level structure of the
@@ -26,7 +26,7 @@ public class Parser {
      *             state.
      * @return new node if the parser was successful, or null otherwise.
      */
-    RegexNode expression(RegexNode node) {
+    private RegexNode expression(RegexNode node) {
         if (lexer.peek() == Token.UNION) {
             return union(node);
         }
@@ -43,7 +43,7 @@ public class Parser {
      * @param node used to modify the structure of the AST being generated.
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
-    RegexNode union(RegexNode node) {
+    private RegexNode union(RegexNode node) {
         lexer.consume();
         UnionAuxNode unionAuxNode = new UnionAuxNode(node, null);
         unionAuxNode.setRight(basicExp(null));
@@ -60,7 +60,7 @@ public class Parser {
      *             state.
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
-    RegexNode basicExp(RegexNode node) {
+    private RegexNode basicExp(RegexNode node) {
         RegexNode elem = elementaryExp(node);
         if (lexer.peek() == Token.STAR) {
             return star(elem);
@@ -79,7 +79,7 @@ public class Parser {
      *             state.
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
-    RegexNode star(RegexNode node) {
+    private RegexNode star(RegexNode node) {
         lexer.consume();
         return new StarNode(null, node);
     }
@@ -94,7 +94,7 @@ public class Parser {
      *             state.
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
-    RegexNode elementaryExp(RegexNode node) {
+    private RegexNode elementaryExp(RegexNode node) {
         if (lexer.peek() == Token.PARENTHESE_OPEN) {
             return group(node);
         }
@@ -116,7 +116,7 @@ public class Parser {
      *             state.
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
-    RegexNode group(RegexNode node) {
+    private RegexNode group(RegexNode node) {
         lexer.consume();
 
         GroupNode groupNode = new GroupNode(null, null);
@@ -158,7 +158,7 @@ public class Parser {
      * 
      * @return new node if the parser was successful, or null otherwise.
      */
-    RegexNode charExp() {
+    private RegexNode charExp() {
         lexer.consume();
         CharNode node = new CharNode(null, null, lexer.getConsumedSymbol());
         return node;

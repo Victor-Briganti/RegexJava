@@ -7,13 +7,13 @@ package org.lexer;
  */
 public class Lexer {
     // The input string to be tokenized.
-    String input;
+    private String input;
 
     // Current position within the input string.
-    Integer curPosition;
+    private Integer curPosition;
 
     // The last symbol that was consumed.
-    Character consumedSymbol;
+    private Character consumedSymbol;
 
     /**
      * Creates a token based on the provided symbol.
@@ -21,7 +21,7 @@ public class Lexer {
      * @param symbol The character to be tokenized.
      * @return The corresponding Token.
      */
-    Token createToken(Character symbol) {
+    private Token createToken(Character symbol) {
         switch (symbol) {
             case '(':
                 return Token.PARENTHESE_OPEN;

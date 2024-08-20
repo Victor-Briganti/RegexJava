@@ -4,8 +4,8 @@ package org.nodes;
  * Abstract base class representing a node in a regex expression tree.
  */
 public abstract class RegexNode {
-    RegexNode left;
-    RegexNode right;
+    protected RegexNode left;
+    protected RegexNode right;
 
     /**
      * Contructor of the node.
