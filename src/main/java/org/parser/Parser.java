@@ -46,7 +46,13 @@ public class Parser {
     private RegexNode union(RegexNode node) {
         lexer.consume();
         UnionAuxNode unionAuxNode = new UnionAuxNode(node, null);
-        unionAuxNode.setRight(basicExp(null));
+
+        if (lexer.peek() == Token.EOF) {
+            unionAuxNode.setRight(emptyExp());
+        } else {
+            unionAuxNode.setRight(basicExp(null));
+        }
+
         return new UnionNode(null, unionAuxNode);
     }
 
@@ -80,6 +86,11 @@ public class Parser {
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
     private RegexNode star(RegexNode node) {
+        if (lexer.getConsumedSymbol() == '*') {
+            error = ErrorType.DOUBLE_STAR;
+            return null;
+        }
+
         lexer.consume();
         return new StarNode(null, node);
     }
@@ -88,7 +99,7 @@ public class Parser {
      * Non-terminal symbol of the grammar, represents more operators of the grammar,
      * and some other terminal symbols.
      *
-     * <elementary-expression> ::= <group> | <char>
+     * <elementary-expression> ::= <group> | <char> | <empty>
      * 
      * @param node may be used during parsing to represent or modify the current
      *             state.
@@ -103,6 +114,11 @@ public class Parser {
             return charExp();
         }
 
+        if (lexer.peek() == Token.UNION) {
+            return emptyExp();
+        }
+
+        error = ErrorType.INVALID_TOKEN;
         return null;
     }
 
@@ -142,7 +158,8 @@ public class Parser {
             }
         }
 
-        if (lexer.peek() == Token.EOF) {
+        if (lexer.peek() != Token.PARENTHESE_CLOSE) {
+            error = ErrorType.PARENTHESE_WITHOUT_CLOSE;
             return null;
         }
 
@@ -162,6 +179,17 @@ public class Parser {
         lexer.consume();
         CharNode node = new CharNode(null, null, lexer.getConsumedSymbol());
         return node;
+    }
+
+    /**
+     * Terminal symbol of the grammar, represents a empty node in the grammar.
+     *
+     * <empty> ::= ''
+     * 
+     * @return new node if the parser was successful, or null otherwise.
+     */
+    private RegexNode emptyExp() {
+        return new EmptyNode(null, null);
     }
 
     /**
@@ -197,15 +225,24 @@ public class Parser {
         while (lexer.peek() != Token.EOF) {
             if (lexer.peek() == Token.UNION) {
                 head = expression(head);
+                if (head == null) {
+                    break;
+                }
+
                 currentNode = head;
             } else {
                 RegexNode newNode = expression(currentNode);
+                if (newNode == null) {
+                    head = null;
+                    break;
+                }
+
                 currentNode.setLeft(newNode);
                 currentNode = newNode;
             }
         }
 
-        if (head.getLeft() == null) {
+        if (head == null) {
             return error.getValue();
         }
 

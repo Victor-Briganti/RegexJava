@@ -7,7 +7,9 @@ package org.parser;
  */
 public enum ErrorType {
     SUCCESSFUL(0),
-    INVALID_TOKEN(-1);
+    INVALID_TOKEN(-1),
+    PARENTHESE_WITHOUT_CLOSE(-2),
+    DOUBLE_STAR(-3);
 
     // Stored value of the error.
     Integer value;

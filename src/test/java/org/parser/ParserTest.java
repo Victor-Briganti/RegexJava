@@ -82,4 +82,37 @@ public class ParserTest {
         assertTrue(byteOutput.toString().compareTo(dummy) == 0);
     }
 
+    @Test
+    public void parserEmpty() {
+        String dummy = "n||z||m||";
+        parser = new Parser(dummy);
+        assertEquals(parser.parse(), 0);
+        parser.getAST().printNode();
+        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+    }
+
+    @Test
+    public void parserDoubleStarError() {
+        String dummy = "a**";
+        parser = new Parser(dummy);
+        int expectedValue = ErrorType.DOUBLE_STAR.getValue();
+        assertEquals(parser.parse(), expectedValue);
+    }
+
+    @Test
+    public void parserParenthesesWithoutCloseError() {
+        String dummy = "((a)";
+        parser = new Parser(dummy);
+        int expectedValue = ErrorType.PARENTHESE_WITHOUT_CLOSE.getValue();
+        assertEquals(parser.parse(), expectedValue);
+    }
+
+    @Test
+    public void parserInvalidTokenError() {
+        String dummy = ")a)";
+        parser = new Parser(dummy);
+        int expectedValue = ErrorType.INVALID_TOKEN.getValue();
+        assertEquals(parser.parse(), expectedValue);
+    }
+
 }
