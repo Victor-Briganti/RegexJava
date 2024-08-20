@@ -3,20 +3,18 @@ package org.nodes;
 /**
  * Concrete class representing the union operator in the regex expression tree.
  * 
- * <union> ::= <RE> "|" <basic-RE>
+ * <union> ::= <expression> "|" <basic-expression>
  */
 public class UnionNode extends RegexNode {
 
     /**
      * Contructor of the node.
      *
-     * @param left  The left child node. Should not be null.
-     * @param right The right child node. Should not be null.
+     * @param left  The left child node.
+     * @param right The right child node.
      */
     public UnionNode(RegexNode left, RegexNode right) {
         super(left, right);
-        assert left != null;
-        assert right != null;
     }
 
     @Override

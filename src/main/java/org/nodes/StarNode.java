@@ -1,20 +1,22 @@
 package org.nodes;
 
 /**
- * Concrete class representing the star operation in the regex expression tree.
+ * Concrete class representing the star operation in the grammar of the regex
+ * expression tree.
+ * 
+ * <star> ::= <elementary-expression> "*"
  */
 public class StarNode extends RegexNode {
 
     /**
      * Contructor of the node.
      *
-     * @param left  The left child node. Should not be null.
-     * @param right The right child node. Should be null.
+     * @param left  The left child node.
+     * @param right The right child node.
      */
     public StarNode(RegexNode left, RegexNode right) {
         super(left, right);
-        assert left != null;
-        assert right == null;
+
     }
 
     @Override

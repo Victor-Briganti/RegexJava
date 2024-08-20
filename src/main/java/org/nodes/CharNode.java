@@ -12,21 +12,21 @@ public class CharNode extends RegexNode {
     /**
      * Contructor of the node.
      *
-     * @param left  The left child node. Should be null.
-     * @param right The right child node. Should be null.
+     * @param left  The left child node.
+     * @param right The right child node.
      * @param value The character that give the value for this node.
      */
     public CharNode(RegexNode left, RegexNode right, Character value) {
         super(left, right);
-        assert value != null;
-        assert left == null;
-        assert right == null;
         this.value = value;
     }
 
     @Override
     public void printNode() {
         System.out.print(value);
+        if (left != null) {
+            left.printNode();
+        }
     }
 
     /**
