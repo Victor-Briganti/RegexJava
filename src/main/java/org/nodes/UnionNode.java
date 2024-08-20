@@ -19,8 +19,12 @@ public class UnionNode extends RegexNode {
 
     @Override
     public void printNode() {
-        this.left.printNode();
-        System.out.print("|");
-        this.right.printNode();
+        if (right != null) {
+            right.printNode();
+        }
+
+        if (left != null) {
+            left.printNode();
+        }
     }
 }

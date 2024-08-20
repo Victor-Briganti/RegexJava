@@ -5,10 +5,11 @@ import org.parser.Parser;
 public class Main {
 
     public static void main(String[] args) {
-        Parser parser = new Parser("(abc)*b*");
+        Parser parser = new Parser("aa|(abc|d)");
         if (parser.parse() == 0) {
             System.out.println("ok");
             parser.getAST().printNode();
+            System.out.println("");
         } else {
             System.out.println("nok");
         }

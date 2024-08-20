@@ -22,10 +22,32 @@ public class Parser {
      *
      * <expression> ::= <union> | <basic-expression>
      * 
+     * @param node may be used during parsing to represent or modify the current
+     *             state.
      * @return new node if the parser was successful, or null otherwise.
      */
-    RegexNode expression() {
-        return basicExp();
+    RegexNode expression(RegexNode node) {
+        if (lexer.peek() == Token.UNION) {
+            return union(node);
+        }
+
+        return basicExp(node);
+    }
+
+    /**
+     * Non-terminal symbol of the grammar, represents the union operation that
+     * we can found in the grammar.
+     *
+     * <union> ::= <expression> "|" <basic-expression>
+     * 
+     * @param node used to modify the structure of the AST being generated.
+     * @return new RegexNode() if the parser was successful, or null otherwise.
+     */
+    RegexNode union(RegexNode node) {
+        lexer.consume();
+        UnionAuxNode unionAuxNode = new UnionAuxNode(node, null);
+        unionAuxNode.setRight(basicExp(null));
+        return new UnionNode(null, unionAuxNode);
     }
 
     /**
@@ -34,10 +56,12 @@ public class Parser {
      *
      * <basic-expression> ::= <star> | <elementary-expression>
      * 
+     * @param node may be used during parsing to represent or modify the current
+     *             state.
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
-    RegexNode basicExp() {
-        RegexNode elem = elementaryExp();
+    RegexNode basicExp(RegexNode node) {
+        RegexNode elem = elementaryExp(node);
         if (lexer.peek() == Token.STAR) {
             return star(elem);
         }
@@ -51,6 +75,8 @@ public class Parser {
      *
      * <star> ::= <elementary-expression> "*"
      * 
+     * @param node may be used during parsing to represent or modify the current
+     *             state.
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
     RegexNode star(RegexNode node) {
@@ -64,14 +90,20 @@ public class Parser {
      *
      * <elementary-expression> ::= <group> | <char>
      * 
+     * @param node may be used during parsing to represent or modify the current
+     *             state.
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
-    RegexNode elementaryExp() {
+    RegexNode elementaryExp(RegexNode node) {
         if (lexer.peek() == Token.PARENTHESE_OPEN) {
-            return group();
+            return group(node);
         }
 
-        return charExp();
+        if (lexer.peek() == Token.CHARACTER) {
+            return charExp();
+        }
+
+        return null;
     }
 
     /**
@@ -80,22 +112,38 @@ public class Parser {
      *
      * <group> ::= "(" <expression> ")"
      * 
+     * @param node may be used during parsing to represent or modify the current
+     *             state.
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
-    RegexNode group() {
+    RegexNode group(RegexNode node) {
         lexer.consume();
 
         GroupNode groupNode = new GroupNode(null, null);
         RegexNode aux = groupNode;
 
-        while (lexer.peek() != Token.PARENTHESE_CLOSE) {
+        Token peekToken = lexer.peek();
+        while (peekToken != Token.PARENTHESE_CLOSE && peekToken != Token.EOF) {
             if (aux == groupNode) {
-                aux.setRight(expression());
+                aux.setRight(expression(node));
                 aux = aux.getRight();
-            } else {
-                aux.setLeft(expression());
-                aux = aux.getLeft();
+                continue;
             }
+
+            if (lexer.peek() == Token.UNION) {
+                aux = expression(groupNode.getRight());
+                groupNode.setRight(aux);
+                break;
+            } else {
+                aux.setLeft(expression(node));
+            }
+
+            aux = aux.getLeft();
+            peekToken = lexer.peek();
+        }
+
+        if (peekToken == Token.EOF) {
+            return null;
         }
 
         lexer.consume();
@@ -143,12 +191,20 @@ public class Parser {
      *         otherwise.
      */
     public int parse() {
-        head = expression();
+        head = expression(null);
 
         RegexNode aux = head;
+        RegexNode iter = null;
         while (lexer.peek() != Token.EOF) {
-            aux.setLeft(expression());
-            aux = aux.getLeft();
+            iter = expression(aux);
+            aux.setLeft(iter);
+
+            if (lexer.peek() == Token.UNION) {
+                aux.setLeft(expression(iter));
+            }
+
+            aux = iter;
+            iter = iter.getLeft();
         }
 
         if (head.getLeft() == null) {
