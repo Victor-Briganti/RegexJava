@@ -120,29 +120,29 @@ public class Parser {
         lexer.consume();
 
         GroupNode groupNode = new GroupNode(null, null);
-        RegexNode aux = groupNode;
+        RegexNode currentNode = groupNode;
 
-        Token peekToken = lexer.peek();
-        while (peekToken != Token.PARENTHESE_CLOSE && peekToken != Token.EOF) {
-            if (aux == groupNode) {
-                aux.setRight(expression(node));
-                aux = aux.getRight();
-                continue;
-            }
+        while (lexer.peek() != Token.PARENTHESE_CLOSE && lexer.peek() != Token.EOF) {
+            if (currentNode == groupNode) {
+                // The first node needs to be appended to the right side of the group node
+                currentNode.setRight(expression(node));
+                currentNode = currentNode.getRight();
+            } else if (lexer.peek() == Token.UNION) {
+                // In the case of a union we need to updated the right side of the group node
+                // (group)->(expression) => (group)->(union)
+                currentNode = expression(groupNode.getRight());
+                groupNode.setRight(currentNode);
 
-            if (lexer.peek() == Token.UNION) {
-                aux = expression(groupNode.getRight());
-                groupNode.setRight(aux);
-                break;
+                // The current node will be the rightmost one.
+                // (curNode) = (group)-R->(union)-R->(unionAux)-R->(basic)
+                currentNode = groupNode.getRight().getRight().getRight();
             } else {
-                aux.setLeft(expression(node));
+                currentNode.setLeft(expression(node));
+                currentNode = currentNode.getLeft();
             }
-
-            aux = aux.getLeft();
-            peekToken = lexer.peek();
         }
 
-        if (peekToken == Token.EOF) {
+        if (lexer.peek() == Token.EOF) {
             return null;
         }
 
@@ -193,18 +193,16 @@ public class Parser {
     public int parse() {
         head = expression(null);
 
-        RegexNode aux = head;
-        RegexNode iter = null;
+        RegexNode currentNode = head;
         while (lexer.peek() != Token.EOF) {
-            iter = expression(aux);
-            aux.setLeft(iter);
-
             if (lexer.peek() == Token.UNION) {
-                aux.setLeft(expression(iter));
+                head = expression(head);
+                currentNode = head;
+            } else {
+                RegexNode newNode = expression(currentNode);
+                currentNode.setLeft(newNode);
+                currentNode = newNode;
             }
-
-            aux = iter;
-            iter = iter.getLeft();
         }
 
         if (head.getLeft() == null) {
