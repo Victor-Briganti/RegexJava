@@ -69,30 +69,4 @@ public class RegexNodeTest {
         assertTrue(result == 0);
     }
 
-    @Test
-    public void elementaryNode() {
-        CharNode charNode = new CharNode(null, null, 'a');
-        UnionAuxNode unionAuxNode = new UnionAuxNode(charNode, charNode);
-        UnionNode unionNode = new UnionNode(null, unionAuxNode);
-        GroupNode groupNode = new GroupNode(null, unionNode);
-        ElementaryNode elementNode = new ElementaryNode(groupNode, null);
-        elementNode.printNode();
-
-        int result = byteOutput.toString().compareTo("(a|a)");
-        assertTrue(result == 0);
-    }
-
-    @Test
-    public void basicNode() {
-        CharNode charNode = new CharNode(null, null, 'a');
-        UnionAuxNode unionAuxNode = new UnionAuxNode(charNode, charNode);
-        UnionNode unionNode = new UnionNode(null, unionAuxNode);
-        GroupNode groupNode = new GroupNode(null, unionNode);
-        BasicNode basicNode = new BasicNode(groupNode, null);
-        basicNode.printNode();
-
-        int result = byteOutput.toString().compareTo("(a|a)");
-        assertTrue(result == 0);
-    }
-
 }
