@@ -1,13 +1,17 @@
 package org.main;
 
-import org.nodes.CharNode;
-import org.nodes.UnionNode;
+import org.parser.Parser;
 
 public class Main {
 
     public static void main(String[] args) {
-        CharNode charNode = new CharNode(null, null, 'a');
-        UnionNode unionNode = new UnionNode(charNode, charNode);
-        unionNode.printNode();
+        Parser parser = new Parser("(abc)*b*");
+        if (parser.parse() == 0) {
+            System.out.println("ok");
+            parser.getAST().printNode();
+        } else {
+            System.out.println("nok");
+        }
+
     }
 }

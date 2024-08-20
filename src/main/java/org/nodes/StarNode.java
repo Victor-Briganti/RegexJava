@@ -21,7 +21,14 @@ public class StarNode extends RegexNode {
 
     @Override
     public void printNode() {
-        this.left.printNode();
+        if (right != null) {
+            right.printNode();
+        }
+
         System.out.print("*");
+
+        if (left != null) {
+            left.printNode();
+        }
     }
 }

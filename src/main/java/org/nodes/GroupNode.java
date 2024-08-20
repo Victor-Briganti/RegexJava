@@ -21,9 +21,16 @@ public class GroupNode extends RegexNode {
     @Override
     public void printNode() {
         System.out.print("(");
-        this.right.printNode();
+
+        if (right != null) {
+            right.printNode();
+        }
+
         System.out.print(")");
-        this.left.printNode();
+
+        if (left != null) {
+            left.printNode();
+        }
     }
 
 }
