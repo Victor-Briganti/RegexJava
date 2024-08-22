@@ -30,7 +30,10 @@ public class Engine {
          *              Should not be null
          */
         Context(int index, State state) {
-            assert state != null : "Context saved state should not be null";
+            if (state == null) {
+                throw new IllegalArgumentException("Context saved state should not be null");
+            }
+
             this.state = state;
             this.index = index;
         }
@@ -166,8 +169,8 @@ public class Engine {
             // the last position of the stack
             for (int i = state.getTransitions().size() - 1; i >= 0; i--) {
                 State.Transition transition = state.getTransitions().get(i);
-                State toState = transition.getState();
-                PatternMatcher matcher = transition.getPatternMatcher();
+                State toState = transition.state();
+                PatternMatcher matcher = transition.patternMatcher();
 
                 if (matcher.tokenMatch(symbol)) {
                     int nextIndex = matcher.isEpsilon() ? index : index + 1;

@@ -15,41 +15,15 @@ public class State {
      * automaton moves from one state to the other based on the specific pattern
      * matching.
      */
-    public static class Transition {
-        private State state;
-        private PatternMatcher patternMatcher;
+    public record Transition(State state, PatternMatcher patternMatcher) {
+        public Transition {
+            if (state == null) {
+                throw new IllegalArgumentException("State must not be null");
+            }
 
-        /**
-         * Constructs a Transition with the specified target state and pattern matcher.
-         * 
-         * @param state          the state to transition to. Should not be null
-         * @param patternMatcher the pattern matcher that defines the transition
-         *                       condition. Should not be null
-         */
-        public Transition(State state, PatternMatcher patternMatcher) {
-            assert state != null : "The next state cannot be null";
-            assert patternMatcher != null : "The pattern to be matched cannot be null";
-            this.state = state;
-            this.patternMatcher = patternMatcher;
-        }
-
-        /**
-         * Getter for the next state of the transtion
-         * 
-         * @return the state to wich this transition lead.
-         */
-        public State getState() {
-            return state;
-        }
-
-        /**
-         * Getter for the pattern matcher that specifies the condition for the
-         * transition.
-         * 
-         * @return the pattern matcher associated with this transition.
-         */
-        public PatternMatcher getPatternMatcher() {
-            return patternMatcher;
+            if (patternMatcher == null) {
+                throw new IllegalArgumentException("PatternMatch must not be null");
+            }
         }
     }
 

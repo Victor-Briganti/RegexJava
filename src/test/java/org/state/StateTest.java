@@ -42,8 +42,8 @@ public class StateTest {
 
         ArrayList<Transition> transitions = state.getTransitions();
         for (int i = 0; i < 30; i++) {
-            assertEquals(states.get(i), transitions.get(i).getState());
-            assertEquals(matchers.get(i), transitions.get(i).getPatternMatcher());
+            assertEquals(states.get(i), transitions.get(i).state());
+            assertEquals(matchers.get(i), transitions.get(i).patternMatcher());
         }
 
     }
@@ -72,8 +72,8 @@ public class StateTest {
         ArrayList<Transition> transitions = state.getTransitions();
 
         for (int i = 0; i < 30; i++) {
-            assertEquals(states.get(i), transitions.get(i).getState());
-            assertEquals(matchers.get(i), transitions.get(i).getPatternMatcher());
+            assertEquals(states.get(i), transitions.get(i).state());
+            assertEquals(matchers.get(i), transitions.get(i).patternMatcher());
         }
 
     }

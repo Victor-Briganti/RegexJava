@@ -44,7 +44,10 @@ public class Lexer {
      * @param input The input string to be tokenized. Must not be null.
      */
     public Lexer(String input) {
-        assert input != null : "Input must not be null";
+        if (input == null) {
+            throw new IllegalArgumentException("Input string should not be null");
+        }
+
         this.input = input;
         this.curPosition = 0;
     }
