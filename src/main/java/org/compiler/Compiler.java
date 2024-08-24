@@ -57,6 +57,37 @@ public class Compiler {
     }
 
     /**
+     * Generate the star state.
+     * Creates a star state, associate this new state with its right side.
+     * The right side (now a new state), is associated with the star state, this is
+     * equivalent to a loop.
+     * A last node is created, the right side and the star node are associate this
+     * last node with a EpsilonMatcher.
+     * 
+     * @param node          Current node that is going to be a state
+     * @param previousState used to link the current state with the previous one
+     * @return The last state of the group
+     */
+    private State generateStarState(StarNode node, State previousState) {
+        if (node.getRight() == null) {
+            return null;
+        }
+
+        State state = new State("q" + Integer.toString(numStates++));
+        previousState.addHighestTransition(state, new EpsilonMatcher());
+
+        State nextState = astToStatesRec(node.getRight(), state);
+        nextState.addTransition(state, new EpsilonMatcher());
+
+        State finalState = new State("q" + Integer.toString(numStates++));
+
+        state.addTransition(finalState, new EpsilonMatcher());
+        nextState.addTransition(finalState, new EpsilonMatcher());
+
+        return finalState;
+    }
+
+    /**
      * Generates a new state based on the type of the given node and links it with
      * the previous state.
      * 
@@ -74,6 +105,10 @@ public class Compiler {
 
         if (node instanceof GroupNode) {
             return generateGroupState((GroupNode) node, previousState);
+        }
+
+        if (node instanceof StarNode) {
+            return generateStarState((StarNode) node, previousState);
         }
 
         return null;

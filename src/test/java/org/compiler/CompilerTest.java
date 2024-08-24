@@ -42,4 +42,52 @@ public class CompilerTest {
         assertTrue(engine.compute("0abcde"));
     }
 
+    @Test
+    public void compilerExecutionStarCase1() {
+        compiler = new Compiler("a*");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0abcde"));
+    }
+
+    @Test
+    public void compilerExecutionStarCase2() {
+        compiler = new Compiler("h*");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0abcde"));
+    }
+
+    @Test
+    public void compilerExecutionStarCase3() {
+        compiler = new Compiler("0*abcde");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0abcde"));
+    }
+
+    @Test
+    public void compilerExecutionStarCase4() {
+        compiler = new Compiler("0*(ab(cd)e)");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0abcde"));
+    }
+
+    @Test
+    public void compilerExecutionStarCase5() {
+        compiler = new Compiler("ab*");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("abbbbbbbb"));
+    }
+
+    @Test
+    public void compilerExecutionStarCase6() {
+        compiler = new Compiler("(ab)*");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("dede"));
+    }
+
 }
