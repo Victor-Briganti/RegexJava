@@ -70,6 +70,48 @@ public class Engine {
     private Set<State> finalStates;
 
     /**
+     * Computes whether the input string is accepted by the regular expression.
+     * This method uses a stack-based approach to perform a depth-first search
+     * of the automaton's states.
+     * 
+     * @param input The input string to be evaluated.
+     * @return true if the input string is accepted by the regular expression,
+     *         false otherwise.
+     */
+    private boolean executeRegex(String input) {
+        Stack<Context> stack = new Stack<Context>();
+        stack.push(new Context(0, starState));
+
+        while (!stack.isEmpty()) {
+            Context current = stack.pop();
+            int index = current.getIndex();
+            State state = current.getState();
+
+            if (finalStates.contains(state)) {
+                return true;
+            }
+
+            char symbol = index >= input.length() ? '\0' : input.charAt(index);
+
+            // Transitions are pushed in reverse order because we want the first to be in
+            // the last position of the stack
+            for (int i = state.getTransitions().size() - 1; i >= 0; i--) {
+                State.Transition transition = state.getTransitions().get(i);
+                State toState = transition.state();
+                PatternMatcher matcher = transition.patternMatcher();
+
+                if (matcher.tokenMatch(symbol)) {
+                    int nextIndex = matcher.isEpsilon() ? index : index + 1;
+                    stack.push(new Context(nextIndex, toState));
+                }
+
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Constructor for the execution engine
      */
     public Engine() {
@@ -142,42 +184,21 @@ public class Engine {
     }
 
     /**
-     * Computes whether the input string is accepted by the regular expression.
-     * This method uses a stack-based approach to perform a depth-first search
-     * of the automaton's states.
+     * Iterate through the string execution the regular expression until the match
+     * is found, or the string reach the end.
      * 
      * @param input The input string to be evaluated.
      * @return true if the input string is accepted by the regular expression,
      *         false otherwise.
      */
     public boolean compute(String input) {
-        Stack<Context> stack = new Stack<Context>();
-        stack.push(new Context(0, starState));
-
-        while (!stack.isEmpty()) {
-            Context current = stack.pop();
-            int index = current.getIndex();
-            State state = current.getState();
-
-            if (finalStates.contains(state)) {
+        int i = 0;
+        while (i < input.length()) {
+            if (executeRegex(input.substring(i))) {
                 return true;
             }
 
-            char symbol = index >= input.length() ? '\0' : input.charAt(index);
-
-            // Transitions are pushed in reverse order because we want the first to be in
-            // the last position of the stack
-            for (int i = state.getTransitions().size() - 1; i >= 0; i--) {
-                State.Transition transition = state.getTransitions().get(i);
-                State toState = transition.state();
-                PatternMatcher matcher = transition.patternMatcher();
-
-                if (matcher.tokenMatch(symbol)) {
-                    int nextIndex = matcher.isEpsilon() ? index : index + 1;
-                    stack.push(new Context(nextIndex, toState));
-                }
-
-            }
+            i++;
         }
 
         return false;
