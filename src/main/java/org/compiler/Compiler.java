@@ -88,6 +88,36 @@ public class Compiler {
     }
 
     /**
+     * Generate the union state.
+     * 
+     * @param node          Current node that is going to be a state
+     * @param previousState used to link the current state with the previous one
+     * @return The last state of the group
+     */
+    private State generateUnionState(UnionNode node, State previousState) {
+        if (node.getRight() == null) {
+            return null;
+        }
+
+        UnionAuxNode unionNode = (UnionAuxNode) node.getRight();
+        if (unionNode.getRight() == null || unionNode.getLeft() == null) {
+            return null;
+        }
+
+        State initState = new State("q" + Integer.toString(numStates++));
+        previousState.addHighestTransition(initState, new EpsilonMatcher());
+
+        State leftState = astToStatesRec(unionNode.getLeft(), initState);
+        State rightState = astToStatesRec(unionNode.getRight(), initState);
+
+        State finalState = new State("q" + Integer.toString(numStates++));
+        leftState.addTransition(finalState, new EpsilonMatcher());
+        rightState.addTransition(finalState, new EpsilonMatcher());
+
+        return finalState;
+    }
+
+    /**
      * Generates a new state based on the type of the given node and links it with
      * the previous state.
      * 
@@ -109,6 +139,10 @@ public class Compiler {
 
         if (node instanceof StarNode) {
             return generateStarState((StarNode) node, previousState);
+        }
+
+        if (node instanceof UnionNode) {
+            return generateUnionState((UnionNode) node, previousState);
         }
 
         return null;

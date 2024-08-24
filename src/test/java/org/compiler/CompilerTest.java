@@ -90,4 +90,56 @@ public class CompilerTest {
         assertTrue(engine.compute("dede"));
     }
 
+    @Test
+    public void compilerExecutionUnionCase1() {
+        compiler = new Compiler("(a|b)");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0acde"));
+    }
+
+    @Test
+    public void compilerExecutionUnionCase2() {
+        compiler = new Compiler("(a|b)");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0bcde"));
+    }
+
+    @Test
+    public void compilerExecutionUnionCase3() {
+        compiler = new Compiler("(a|b)");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(!engine.compute("0cde"));
+    }
+
+    @Test
+    public void compilerExecutionUnionCase4() {
+        compiler = new Compiler("bata(ta|vo)");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("batata"));
+        assertTrue(engine.compute("batavo"));
+        assertTrue(!engine.compute("batato"));
+    }
+
+    @Test
+    public void compilerExecutionUnionCase5() {
+        compiler = new Compiler("(a|b)*");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("abababababababa"));
+    }
+
+    @Test
+    public void compilerExecutionUnionCase6() {
+        compiler = new Compiler("a|b*");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("bbbbbb"));
+        assertTrue(engine.compute("a"));
+        assertTrue(engine.compute("c"));
+    }
+
 }

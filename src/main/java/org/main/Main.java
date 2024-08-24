@@ -6,7 +6,7 @@ import org.engine.Engine;
 public class Main {
 
     public static void main(String[] args) {
-        Compiler compiler = new Compiler("(ab)*");
+        Compiler compiler = new Compiler("a|b");
         if (compiler.compile() < 0) {
             System.out.println("Failed");
         } else {
@@ -14,7 +14,7 @@ public class Main {
         }
 
         Engine engine = compiler.getEngine();
-        if (!engine.compute("0bdc")) {
+        if (!engine.compute("0aadc")) {
             System.out.println("Failed");
         } else {
             System.out.println("Worked");
