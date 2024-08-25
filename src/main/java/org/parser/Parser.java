@@ -91,7 +91,7 @@ public class Parser {
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
     private RegexNode plus(RegexNode node) {
-        if (lexer.getConsumedSymbol() == '*') {
+        if (lexer.getConsumedToken() == Token.PLUS) {
             error = ErrorType.DOUBLE_PLUS;
             return null;
         }
@@ -111,7 +111,7 @@ public class Parser {
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
     private RegexNode star(RegexNode node) {
-        if (lexer.getConsumedSymbol() == '*') {
+        if (lexer.getConsumedToken() == Token.STAR) {
             error = ErrorType.DOUBLE_STAR;
             return null;
         }
