@@ -33,6 +33,8 @@ public class Lexer {
                 return Token.UNION;
             case '\\':
                 return Token.SLASH;
+            case '.':
+                return Token.ANY;
             default:
                 return Token.CHARACTER;
         }
