@@ -150,4 +150,30 @@ public class EngineTest {
         assertTrue(engine.compute("aaaaaaaaaa"));
     }
 
+    @Test
+    public void PlusOperator() {
+        engine = new Engine();
+
+        // Here we are trying to create a automaton that matches the "a+".
+        State startState = new State("q0");
+        State middleState = new State("q1");
+        State endState = new State("q2");
+
+        startState.addTransition(middleState, new CharacterMatcher('a'));
+
+        middleState.addTransition(middleState, new CharacterMatcher('a'));
+        middleState.addHighestTransition(endState, new EpsilonMatcher());
+
+        engine.addState(startState);
+        engine.addState(middleState);
+        engine.addState(endState);
+
+        engine.setStarState(startState);
+        engine.addFinalState(endState);
+
+        assertTrue(engine.compute("a"));
+        assertTrue(!engine.compute("b"));
+        assertTrue(engine.compute("aaaaaaaaaa"));
+    }
+
 }
