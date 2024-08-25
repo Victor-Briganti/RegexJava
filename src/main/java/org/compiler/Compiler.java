@@ -102,6 +102,34 @@ public class Compiler {
     }
 
     /**
+     * Generate the plus state.
+     * Creates a plus state, associate this new state with its right side.
+     * This operator follows the same creation of the star one, with one extra
+     * step, it needs to match at least once.
+     * 
+     * @param node          Current node that is going to be a state
+     * @param previousState used to link the current state with the previous one
+     * @return The last state of the group
+     */
+    private State generatePlusState(PlusNode node, State previousState) {
+        if (node.getRight() == null) {
+            return null;
+        }
+
+        State state = new State("q" + Integer.toString(numStates++));
+        previousState.addHighestTransition(state, new EpsilonMatcher());
+
+        State nextState = astToStatesRec(node.getRight(), state);
+        nextState.addTransition(state, new EpsilonMatcher());
+
+        State finalState = new State("q" + Integer.toString(numStates++));
+
+        nextState.addTransition(finalState, new EpsilonMatcher());
+
+        return finalState;
+    }
+
+    /**
      * Generate the union state.
      * 
      * @param node          Current node that is going to be a state
@@ -157,6 +185,10 @@ public class Compiler {
 
         if (node instanceof StarNode) {
             return generateStarState((StarNode) node, previousState);
+        }
+
+        if (node instanceof PlusNode) {
+            return generatePlusState((PlusNode) node, previousState);
         }
 
         if (node instanceof UnionNode) {

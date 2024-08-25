@@ -156,4 +156,53 @@ public class CompilerTest {
         assertTrue(engine.compute("g"));
     }
 
+    @Test
+    public void compilerExecutionPlusCase1() {
+        compiler = new Compiler("a+");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0abcde"));
+    }
+
+    @Test
+    public void compilerExecutionPlusCase2() {
+        compiler = new Compiler("h+");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(!engine.compute("0abcde"));
+    }
+
+    @Test
+    public void compilerExecutionPlusCase3() {
+        compiler = new Compiler("0+abcde");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("000abcde"));
+    }
+
+    @Test
+    public void compilerExecutionPlusCase4() {
+        compiler = new Compiler("0+(ab(cd)e)");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0abcde"));
+    }
+
+    @Test
+    public void compilerExecutionPlusCase5() {
+        compiler = new Compiler("ab+");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("abbbbbbbb"));
+    }
+
+    @Test
+    public void compilerExecutionPlusCase6() {
+        compiler = new Compiler("(ab)+");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("dedeab"));
+        assertTrue(!engine.compute("dede"));
+    }
+
 }
