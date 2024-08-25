@@ -60,7 +60,7 @@ public class Parser {
      * Non-terminal symbol of the grammar, represents the basic operators that
      * we can found in the grammar.
      *
-     * <basic-expression> ::= <star> | <elementary-expression>
+     * <basic-expression> ::= <star> | <plus> | <question> | <elementary-expression>
      * 
      * @param node may be used during parsing to represent or modify the current
      *             state.
@@ -68,11 +68,40 @@ public class Parser {
      */
     private RegexNode basicExp(RegexNode node) {
         RegexNode elem = elementaryExp(node);
+
         if (lexer.peek() == Token.STAR) {
             return star(elem);
         }
 
+        if (lexer.peek() == Token.PLUS) {
+            return plus(elem);
+        }
+
+        if (lexer.peek() == Token.QUESTION) {
+            return question(elem);
+        }
+
         return elem;
+    }
+
+    /**
+     * Non-terminal symbol of the grammar, represents the plus operation that
+     * we can found in the grammar.
+     *
+     * <plus> ::= <elementary-expression> "+"
+     * 
+     * @param node may be used during parsing to represent or modify the current
+     *             state.
+     * @return new RegexNode() if the parser was successful, or null otherwise.
+     */
+    private RegexNode plus(RegexNode node) {
+        if (lexer.getConsumedToken() == Token.PLUS) {
+            error = ErrorType.DOUBLE_PLUS;
+            return null;
+        }
+
+        lexer.consume();
+        return new PlusNode(null, node);
     }
 
     /**
@@ -86,13 +115,33 @@ public class Parser {
      * @return new RegexNode() if the parser was successful, or null otherwise.
      */
     private RegexNode star(RegexNode node) {
-        if (lexer.getConsumedSymbol() == '*') {
+        if (lexer.getConsumedToken() == Token.STAR) {
             error = ErrorType.DOUBLE_STAR;
             return null;
         }
 
         lexer.consume();
         return new StarNode(null, node);
+    }
+
+    /**
+     * Non-terminal symbol of the grammar, represents the question operation that
+     * we can found in the grammar.
+     *
+     * <question> ::= <elementary-expression> "?"
+     * 
+     * @param node may be used during parsing to represent or modify the current
+     *             state.
+     * @return new RegexNode() if the parser was successful, or null otherwise.
+     */
+    private RegexNode question(RegexNode node) {
+        if (lexer.getConsumedToken() == Token.QUESTION) {
+            error = ErrorType.DOUBLE_QUESTION;
+            return null;
+        }
+
+        lexer.consume();
+        return new QuestionNode(null, node);
     }
 
     /**

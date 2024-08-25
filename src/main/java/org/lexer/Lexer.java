@@ -15,6 +15,9 @@ public class Lexer {
     // The last symbol that was consumed.
     private Character consumedSymbol;
 
+    // The last symbol that was consumed.
+    private Token consumedToken;
+
     /**
      * Creates a token based on the provided symbol.
      *
@@ -35,6 +38,10 @@ public class Lexer {
                 return Token.SLASH;
             case '.':
                 return Token.ANY;
+            case '+':
+                return Token.PLUS;
+            case '?':
+                return Token.QUESTION;
             default:
                 return Token.CHARACTER;
         }
@@ -90,6 +97,7 @@ public class Lexer {
             if (specialToken != Token.CHARACTER) {
                 curPosition += 2;
                 consumedSymbol = nextChar;
+                consumedToken = Token.CHARACTER;
                 return Token.CHARACTER;
             }
 
@@ -98,6 +106,7 @@ public class Lexer {
 
         curPosition++;
         consumedSymbol = currentChar;
+        consumedToken = token;
         return token;
     }
 
@@ -143,6 +152,15 @@ public class Lexer {
      */
     public Character getConsumedSymbol() {
         return consumedSymbol;
+    }
+
+    /**
+     * Returns the last consumed token.
+     *
+     * @return The token that was last consumed.
+     */
+    public Token getConsumedToken() {
+        return consumedToken;
     }
 
 }
