@@ -125,9 +125,28 @@ public class ParserTest {
     }
 
     @Test
-    public void parserDotAnyToken() {
+    public void parserSpecialAnyToken() {
         String dummy = "\\.(...)a";
         String result = ".(...)a";
+        parser = new Parser(dummy);
+        assertEquals(0, parser.parse());
+        parser.getAST().printNode();
+        assertTrue(byteOutput.toString().compareTo(result) == 0);
+    }
+
+    @Test
+    public void parserPlusToken() {
+        String dummy = "a+b+c+d";
+        parser = new Parser(dummy);
+        assertEquals(0, parser.parse());
+        parser.getAST().printNode();
+        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+    }
+
+    @Test
+    public void parserSpecialPlusToken() {
+        String dummy = "\\++a+b+c+dE";
+        String result = "++a+b+c+dE";
         parser = new Parser(dummy);
         assertEquals(0, parser.parse());
         parser.getAST().printNode();

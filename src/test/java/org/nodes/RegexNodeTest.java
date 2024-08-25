@@ -77,4 +77,12 @@ public class RegexNodeTest {
         System.out.flush();
     }
 
+    @Test
+    public void plusNode() {
+        PlusNode node = new PlusNode(null, null);
+        node.printNode();
+        assertTrue(this.byteOutput.toString().charAt(0) == '+');
+        System.out.flush();
+    }
+
 }

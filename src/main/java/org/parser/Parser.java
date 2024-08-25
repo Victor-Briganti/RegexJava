@@ -60,7 +60,7 @@ public class Parser {
      * Non-terminal symbol of the grammar, represents the basic operators that
      * we can found in the grammar.
      *
-     * <basic-expression> ::= <star> | <elementary-expression>
+     * <basic-expression> ::= <star> | <plus> | <elementary-expression>
      * 
      * @param node may be used during parsing to represent or modify the current
      *             state.
@@ -68,11 +68,36 @@ public class Parser {
      */
     private RegexNode basicExp(RegexNode node) {
         RegexNode elem = elementaryExp(node);
+
         if (lexer.peek() == Token.STAR) {
             return star(elem);
         }
 
+        if (lexer.peek() == Token.PLUS) {
+            return plus(elem);
+        }
+
         return elem;
+    }
+
+    /**
+     * Non-terminal symbol of the grammar, represents the plus operation that
+     * we can found in the grammar.
+     *
+     * <plus> ::= <elementary-expression> "+"
+     * 
+     * @param node may be used during parsing to represent or modify the current
+     *             state.
+     * @return new RegexNode() if the parser was successful, or null otherwise.
+     */
+    private RegexNode plus(RegexNode node) {
+        if (lexer.getConsumedSymbol() == '*') {
+            error = ErrorType.DOUBLE_PLUS;
+            return null;
+        }
+
+        lexer.consume();
+        return new PlusNode(null, node);
     }
 
     /**
