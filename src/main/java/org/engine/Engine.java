@@ -18,7 +18,7 @@ public class Engine {
      * Represents the current state of evaluation and the index within
      * the input string that is being processed.
      */
-    class Context {
+    static class Context {
         State state;
         int index;
 
@@ -59,11 +59,11 @@ public class Engine {
     }
 
     // Set containing all the states of the regex
-    private Set<State> states;
+    private final Set<State> states;
 
     // Start state of the regex
     // Represent the first state from which the evaluation begins.
-    private State starState;
+    private State startState;
 
     // All the final states of the expression.
     // Represents the ones that turn the automaton in to the accept state.
@@ -80,7 +80,7 @@ public class Engine {
      */
     private boolean executeRegex(String input) {
         Stack<Context> stack = new Stack<Context>();
-        stack.push(new Context(0, starState));
+        stack.push(new Context(0, startState));
 
         while (!stack.isEmpty()) {
             Context current = stack.pop();
@@ -116,7 +116,7 @@ public class Engine {
      */
     public Engine() {
         states = new HashSet<State>();
-        starState = null;
+        startState = null;
         finalStates = new HashSet<State>();
     }
 
@@ -143,8 +143,8 @@ public class Engine {
      * 
      * @return The start state.
      */
-    public State getStarState() {
-        return starState;
+    public State getStartState() {
+        return startState;
     }
 
     /**
@@ -152,8 +152,8 @@ public class Engine {
      * 
      * @param startState The new start state to be set.
      */
-    public void setStarState(State starState) {
-        this.starState = starState;
+    public void setStartState(State startState) {
+        this.startState = startState;
     }
 
     /**

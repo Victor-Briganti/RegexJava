@@ -10,7 +10,7 @@ public class CharNode extends RegexNode {
     Character value;
 
     /**
-     * Contructor of the node.
+     * Constructor of the node.
      *
      * @param left  The left child node.
      * @param right The right child node.

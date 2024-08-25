@@ -29,10 +29,10 @@ public class State {
 
     // Represents the name of the states 'q0', 'q1' ... 'qn'
     // Used only for debugging purposes.
-    private String name;
+    private final String name;
 
     // List with all the accepted transitions that this state have.
-    private ArrayList<Transition> transitions;
+    private final ArrayList<Transition> transitions;
 
     /**
      * Constructor of the state
@@ -57,13 +57,13 @@ public class State {
 
     /**
      * Adds a transition from this state to a specified target state.
-     * The new transition is prepend to the end of the transition list.
+     * The new transition is prepended to the end of the transition list.
      * 
      * @param state          the target state for the transition
      * @param patternMatcher the pattern matcher defining the transition condition.
      */
     public void addHighestTransition(State state, PatternMatcher patternMatcher) {
-        transitions.add(0, new Transition(state, patternMatcher));
+        transitions.addFirst(new Transition(state, patternMatcher));
     }
 
     /**

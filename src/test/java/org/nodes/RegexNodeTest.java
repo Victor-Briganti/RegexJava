@@ -1,5 +1,6 @@
 package org.nodes;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -32,7 +33,7 @@ public class RegexNodeTest {
     public void charNode() {
         CharNode node = new CharNode(null, null, 'a');
         node.printNode();
-        assertTrue(this.byteOutput.toString().charAt(0) == 'a');
+        assertEquals('a', this.byteOutput.toString().charAt(0));
         System.out.flush();
     }
 
@@ -43,7 +44,7 @@ public class RegexNodeTest {
         starNode.printNode();
 
         int result = byteOutput.toString().compareTo("a*");
-        assertTrue(result == 0);
+        assertEquals(0, result);
     }
 
     @Test
@@ -54,7 +55,7 @@ public class RegexNodeTest {
         unionNode.printNode();
 
         int result = byteOutput.toString().compareTo("a|a");
-        assertTrue(result == 0);
+        assertEquals(0, result);
     }
 
     @Test
@@ -66,14 +67,14 @@ public class RegexNodeTest {
         groupNode.printNode();
 
         int result = byteOutput.toString().compareTo("(a|a)");
-        assertTrue(result == 0);
+        assertEquals(0, result);
     }
 
     @Test
     public void anyNode() {
         AnyNode node = new AnyNode(null, null);
         node.printNode();
-        assertTrue(this.byteOutput.toString().charAt(0) == '.');
+        assertEquals('.', this.byteOutput.toString().charAt(0));
         System.out.flush();
     }
 
@@ -81,7 +82,7 @@ public class RegexNodeTest {
     public void plusNode() {
         PlusNode node = new PlusNode(null, null);
         node.printNode();
-        assertTrue(this.byteOutput.toString().charAt(0) == '+');
+        assertEquals('+', this.byteOutput.toString().charAt(0));
         System.out.flush();
     }
 
@@ -89,7 +90,7 @@ public class RegexNodeTest {
     public void questionNode() {
         QuestionNode node = new QuestionNode(null, null);
         node.printNode();
-        assertTrue(this.byteOutput.toString().charAt(0) == '?');
+        assertEquals('?', this.byteOutput.toString().charAt(0));
         System.out.flush();
     }
 

@@ -41,7 +41,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(parser.parse(), 0);
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(result) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(result));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(parser.parse(), 0);
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(result) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(result));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(parser.parse(), 0);
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(result) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(result));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(parser.parse(), 0);
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(dummy));
     }
 
     @Test
@@ -88,7 +88,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(parser.parse(), 0);
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(dummy));
     }
 
     @Test
@@ -121,7 +121,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(0, parser.parse());
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(dummy));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(0, parser.parse());
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(result) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(result));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(0, parser.parse());
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(dummy));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(0, parser.parse());
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(result) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(result));
     }
 
     @Test
@@ -159,7 +159,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(0, parser.parse());
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(dummy));
     }
 
     @Test
@@ -169,7 +169,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(0, parser.parse());
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(result) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(result));
     }
 
 }

@@ -1,5 +1,6 @@
 package org.matcher;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class EpsilonMatcherTest {
     public void epsilonGetterToken() {
         espilon = new EpsilonMatcher();
         int result = espilon.getToken().compareTo("{Epsilon}");
-        assertTrue(result == 0);
+        assertEquals(0, result);
     }
 
 }

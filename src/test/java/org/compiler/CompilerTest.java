@@ -1,11 +1,10 @@
 package org.compiler;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import org.engine.*;
+
+import static org.junit.Assert.*;
 
 public class CompilerTest {
     Compiler compiler;
@@ -23,7 +22,7 @@ public class CompilerTest {
         compiler = new Compiler("aab");
         compiler.compile();
         Engine engine = compiler.getEngine();
-        assertEquals(true, engine.compute("addaadaavsswwsaaabwwsas"));
+        assertTrue(engine.compute("addaadaavsswwsaaabwwsas"));
     }
 
     @Test
@@ -31,7 +30,7 @@ public class CompilerTest {
         compiler = new Compiler("aab");
         compiler.compile();
         Engine engine = compiler.getEngine();
-        assertTrue(!engine.compute("addaadaavsswwsabwwsas"));
+        assertFalse(engine.compute("addaadaavsswwsabwwsas"));
     }
 
     @Test
@@ -111,7 +110,7 @@ public class CompilerTest {
         compiler = new Compiler("(a|b)");
         compiler.compile();
         Engine engine = compiler.getEngine();
-        assertTrue(!engine.compute("0cde"));
+        assertFalse(engine.compute("0cde"));
     }
 
     @Test
@@ -121,7 +120,7 @@ public class CompilerTest {
         Engine engine = compiler.getEngine();
         assertTrue(engine.compute("batata"));
         assertTrue(engine.compute("batavo"));
-        assertTrue(!engine.compute("batato"));
+        assertFalse(engine.compute("batato"));
     }
 
     @Test
@@ -169,7 +168,7 @@ public class CompilerTest {
         compiler = new Compiler("h+");
         compiler.compile();
         Engine engine = compiler.getEngine();
-        assertTrue(!engine.compute("0abcde"));
+        assertFalse(engine.compute("0abcde"));
     }
 
     @Test
@@ -202,7 +201,7 @@ public class CompilerTest {
         compiler.compile();
         Engine engine = compiler.getEngine();
         assertTrue(engine.compute("dedeab"));
-        assertTrue(!engine.compute("dede"));
+        assertFalse(engine.compute("dede"));
     }
 
     @Test

@@ -1,8 +1,5 @@
 package org.engine;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -12,6 +9,8 @@ import java.util.Set;
 
 import org.state.*;
 
+import static org.junit.Assert.*;
+
 public class EngineTest {
     Engine engine;
 
@@ -19,8 +18,8 @@ public class EngineTest {
     public void startState() {
         engine = new Engine();
         State state = new State("q0");
-        engine.setStarState(state);
-        assertEquals(state, engine.getStarState());
+        engine.setStartState(state);
+        assertEquals(state, engine.getStartState());
     }
 
     @Test
@@ -75,11 +74,11 @@ public class EngineTest {
         engine.addState(middleState);
         engine.addState(finalState);
 
-        engine.setStarState(startState);
+        engine.setStartState(startState);
         engine.addFinalState(finalState);
 
         assertTrue(engine.compute("ab"));
-        assertTrue(!engine.compute("ac"));
+        assertFalse(engine.compute("ac"));
     }
 
     @Test
@@ -98,13 +97,13 @@ public class EngineTest {
         engine.addState(leftMiddleState);
         engine.addState(rightMiddleState);
 
-        engine.setStarState(startState);
+        engine.setStartState(startState);
         engine.addFinalState(leftMiddleState);
         engine.addFinalState(rightMiddleState);
 
         assertTrue(engine.compute("a"));
         assertTrue(engine.compute("b"));
-        assertTrue(!engine.compute("c"));
+        assertFalse(engine.compute("c"));
     }
 
     @Test
@@ -121,7 +120,7 @@ public class EngineTest {
         engine.addState(startState);
         engine.addState(emptyState);
 
-        engine.setStarState(startState);
+        engine.setStartState(startState);
         engine.addFinalState(emptyState);
 
         assertTrue(engine.compute("a"));
@@ -142,7 +141,7 @@ public class EngineTest {
         engine.addState(startState);
         engine.addState(emptyState);
 
-        engine.setStarState(startState);
+        engine.setStartState(startState);
         engine.addFinalState(emptyState);
 
         assertTrue(engine.compute("a"));
@@ -168,11 +167,11 @@ public class EngineTest {
         engine.addState(middleState);
         engine.addState(endState);
 
-        engine.setStarState(startState);
+        engine.setStartState(startState);
         engine.addFinalState(endState);
 
         assertTrue(engine.compute("a"));
-        assertTrue(!engine.compute("b"));
+        assertFalse(engine.compute("b"));
         assertTrue(engine.compute("aaaaaaaaaa"));
     }
 

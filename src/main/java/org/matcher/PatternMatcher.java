@@ -8,7 +8,7 @@ public interface PatternMatcher {
      * Epsilon are matchers that allows the automaton to move from one state to
      * another without consuming any input symbol.
      * 
-     * @return true if is an espsilon, false otherwise.
+     * @return true if is an epsilon, false otherwise.
      */
     public boolean isEpsilon();
 

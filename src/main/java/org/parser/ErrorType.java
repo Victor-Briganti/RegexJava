@@ -14,7 +14,7 @@ public enum ErrorType {
     DOUBLE_QUESTION(-5);
 
     // Stored value of the error.
-    Integer value;
+    final Integer value;
 
     /**
      * Constructor for the enum.

@@ -279,7 +279,7 @@ public class Parser {
     /**
      * Parses the regular expression currently saved.
      *
-     * @return 0 if the the expression could be parsed, and a negative number
+     * @return 0 if the expression could be parsed, and a negative number
      *         otherwise.
      */
     public int parse() {

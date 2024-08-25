@@ -8,7 +8,7 @@ public abstract class RegexNode {
     protected RegexNode right;
 
     /**
-     * Contructor of the node.
+     * Constructor of the node.
      *
      * @param left  The left child node. May be null.
      * @param right The right child node. May be null.

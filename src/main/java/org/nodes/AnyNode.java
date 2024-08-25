@@ -7,11 +7,10 @@ package org.nodes;
  */
 public class AnyNode extends RegexNode {
     /**
-     * Contructor of the node.
+     * Constructor of the node.
      *
      * @param left  The left child node.
      * @param right The right child node.
-     * @param value The character that give the value for this node.
      */
     public AnyNode(RegexNode left, RegexNode right) {
         super(left, right);

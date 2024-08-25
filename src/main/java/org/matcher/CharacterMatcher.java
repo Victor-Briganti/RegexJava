@@ -5,7 +5,7 @@ package org.matcher;
  * character against a stored token
  */
 public class CharacterMatcher implements PatternMatcher {
-    private char token;
+    private final char token;
 
     public CharacterMatcher(char token) {
         this.token = token;

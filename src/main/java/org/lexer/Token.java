@@ -15,5 +15,5 @@ public enum Token {
     QUESTION, // '?'
     CHARACTER, // A literal character
     EOF, // Defines the end of the expression
-    NOT_FOUND, // Defined in case of a error
+    NOT_FOUND, // Defined in case of an error
 }

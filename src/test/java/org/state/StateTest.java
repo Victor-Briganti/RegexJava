@@ -59,9 +59,9 @@ public class StateTest {
             String identifier = "q" + Integer.toString(i);
 
             if (i == 29) {
-                states.add(0, new State(identifier));
-                matchers.add(0, new EpsilonMatcher());
-                state.addHighestTransition(states.get(0), matchers.get(0));
+                states.addFirst(new State(identifier));
+                matchers.addFirst(new EpsilonMatcher());
+                state.addHighestTransition(states.getFirst(), matchers.getFirst());
             } else {
                 states.add(new State(identifier));
                 matchers.add(new CharacterMatcher(identifier.charAt(1)));

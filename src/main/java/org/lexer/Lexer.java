@@ -25,26 +25,17 @@ public class Lexer {
      * @return The corresponding Token.
      */
     private Token createToken(Character symbol) {
-        switch (symbol) {
-            case '(':
-                return Token.PARENTHESE_OPEN;
-            case ')':
-                return Token.PARENTHESE_CLOSE;
-            case '*':
-                return Token.STAR;
-            case '|':
-                return Token.UNION;
-            case '\\':
-                return Token.SLASH;
-            case '.':
-                return Token.ANY;
-            case '+':
-                return Token.PLUS;
-            case '?':
-                return Token.QUESTION;
-            default:
-                return Token.CHARACTER;
-        }
+        return switch (symbol) {
+            case '(' -> Token.PARENTHESE_OPEN;
+            case ')' -> Token.PARENTHESE_CLOSE;
+            case '*' -> Token.STAR;
+            case '|' -> Token.UNION;
+            case '\\' -> Token.SLASH;
+            case '.' -> Token.ANY;
+            case '+' -> Token.PLUS;
+            case '?' -> Token.QUESTION;
+            default -> Token.CHARACTER;
+        };
     }
 
     /**

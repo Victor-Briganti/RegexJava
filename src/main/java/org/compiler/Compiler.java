@@ -15,7 +15,7 @@ import org.state.*;
  */
 public class Compiler {
     private Engine engine;
-    private Parser parser;
+    private final Parser parser;
     private int numStates;
 
     /**
@@ -34,7 +34,7 @@ public class Compiler {
     }
 
     /**
-     * Generate the any state.
+     * Generate any state.
      * Associate the previous state with this one using a AnyMatcher, and
      * then return the newly created state.
      * 
@@ -66,8 +66,7 @@ public class Compiler {
         State state = new State("q" + Integer.toString(numStates++));
         previousState.addHighestTransition(state, new EpsilonMatcher());
 
-        State lastState = astToStatesRec(node.getRight(), state);
-        return lastState;
+        return astToStatesRec(node.getRight(), state);
     }
 
     /**
@@ -91,6 +90,11 @@ public class Compiler {
         previousState.addHighestTransition(state, new EpsilonMatcher());
 
         State nextState = astToStatesRec(node.getRight(), state);
+
+        if (nextState == null) {
+            return null;
+        }
+
         nextState.addTransition(state, new EpsilonMatcher());
 
         State finalState = new State("q" + Integer.toString(numStates++));
@@ -120,6 +124,11 @@ public class Compiler {
         previousState.addHighestTransition(state, new EpsilonMatcher());
 
         State nextState = astToStatesRec(node.getRight(), state);
+
+        if (nextState == null) {
+            return null;
+        }
+
         nextState.addTransition(state, new EpsilonMatcher());
 
         State finalState = new State("q" + Integer.toString(numStates++));
@@ -132,7 +141,7 @@ public class Compiler {
     /**
      * Generate the question state.
      * Creates a question state, associate this new state with its right side.
-     * This operator acts similar to the union operatro, its objective is to match
+     * This operator acts similar to the union operator, its objective is to match
      * the node or nothing.
      * 
      * @param node          Current node that is going to be a state
@@ -148,6 +157,10 @@ public class Compiler {
         previousState.addHighestTransition(state, new EpsilonMatcher());
 
         State nextState = astToStatesRec(node.getRight(), state);
+
+        if (nextState == null) {
+            return null;
+        }
 
         State finalState = new State("q" + Integer.toString(numStates++));
 
@@ -179,6 +192,10 @@ public class Compiler {
 
         State leftState = astToStatesRec(unionNode.getLeft(), initState);
         State rightState = astToStatesRec(unionNode.getRight(), initState);
+
+        if (leftState == null || rightState == null) {
+            return null;
+        }
 
         State finalState = new State("q" + Integer.toString(numStates++));
         leftState.addTransition(finalState, new EpsilonMatcher());
@@ -259,14 +276,9 @@ public class Compiler {
     }
 
     /**
-     * Generate the group state.
-     * Associate the previous state with this one using a EpsilonMatcher, and then
-     * recursively generate all the states that are on its right side. In the end
-     * return the last state generated.
-     * 
-     * @param node          Current node that is going to be a state
-     * @param previousState used to link the current state with the previous one
-     * @return The last state of the group
+     * Generate all the states based on the AST
+     *
+     * @return 0 if the generation worked, and -1 otherwise.
      */
     private int astToStates() {
         if (parser.getAST() == null) {
@@ -275,7 +287,7 @@ public class Compiler {
 
         State firstState = new State("q0");
         engine.addState(firstState);
-        engine.setStarState(firstState);
+        engine.setStartState(firstState);
 
         State finalState = astToStatesRec(parser.getAST(), firstState);
         engine.addState(finalState);
