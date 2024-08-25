@@ -115,4 +115,23 @@ public class ParserTest {
         assertEquals(parser.parse(), expectedValue);
     }
 
+    @Test
+    public void parserAnyToken() {
+        String dummy = "(...)a";
+        parser = new Parser(dummy);
+        assertEquals(0, parser.parse());
+        parser.getAST().printNode();
+        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+    }
+
+    @Test
+    public void parserDotAnyToken() {
+        String dummy = "\\.(...)a";
+        String result = ".(...)a";
+        parser = new Parser(dummy);
+        assertEquals(0, parser.parse());
+        parser.getAST().printNode();
+        assertTrue(byteOutput.toString().compareTo(result) == 0);
+    }
+
 }
