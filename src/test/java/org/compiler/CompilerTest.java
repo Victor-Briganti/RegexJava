@@ -205,4 +205,57 @@ public class CompilerTest {
         assertTrue(!engine.compute("dede"));
     }
 
+    @Test
+    public void compilerExecutionQuestionCase1() {
+        compiler = new Compiler("a?");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0abcde"));
+    }
+
+    @Test
+    public void compilerExecutionQuestionCase2() {
+        compiler = new Compiler("h?");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0abcde"));
+    }
+
+    @Test
+    public void compilerExecutionQuestionCase3() {
+        compiler = new Compiler("0?abcde");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("000abcde"));
+    }
+
+    @Test
+    public void compilerExecutionQuestionCase4() {
+        compiler = new Compiler("0?(ab(cd)e)");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("0abcde"));
+        assertTrue(engine.compute("abcde"));
+    }
+
+    @Test
+    public void compilerExecutionQuestionCase5() {
+        compiler = new Compiler("ab?");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("abbbbbbbb"));
+        assertTrue(engine.compute("ac"));
+    }
+
+    @Test
+    public void compilerExecutionQuestionCase6() {
+        compiler = new Compiler("(ab)?");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("dedeab"));
+        assertTrue(engine.compute("dedea"));
+        assertTrue(engine.compute("dedeb"));
+        assertTrue(engine.compute("dede"));
+    }
+
 }
