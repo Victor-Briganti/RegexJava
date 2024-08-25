@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class LexerTest {
-    String dummy = "\\\\abcd|efgh)()*|\n|~\\*.++";
+    String dummy = "\\\\abcd|efgh)()*|\n|~\\*.++??";
 
     @Test
     public void consume() {
@@ -33,6 +33,8 @@ public class LexerTest {
                 Token.ANY,
                 Token.PLUS,
                 Token.PLUS,
+                Token.QUESTION,
+                Token.QUESTION,
         };
 
         for (Token expectedToken : expectedTokens) {
@@ -66,6 +68,8 @@ public class LexerTest {
                 Token.ANY,
                 Token.PLUS,
                 Token.PLUS,
+                Token.QUESTION,
+                Token.QUESTION,
                 Token.EOF
         };
 
@@ -102,6 +106,8 @@ public class LexerTest {
                 '.',
                 '+',
                 '+',
+                '?',
+                '?',
         };
 
         for (Character expectedChar : expectedChars) {

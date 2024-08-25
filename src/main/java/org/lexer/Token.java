@@ -12,6 +12,7 @@ public enum Token {
     SLASH, // '\'
     ANY, // '.'
     PLUS, // '+'
+    QUESTION, // '?'
     CHARACTER, // A literal character
     EOF, // Defines the end of the expression
     NOT_FOUND, // Defined in case of a error
