@@ -69,4 +69,12 @@ public class RegexNodeTest {
         assertTrue(result == 0);
     }
 
+    @Test
+    public void anyNode() {
+        AnyNode node = new AnyNode(null, null);
+        node.printNode();
+        assertTrue(this.byteOutput.toString().charAt(0) == '.');
+        System.out.flush();
+    }
+
 }

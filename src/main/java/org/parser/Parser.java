@@ -99,7 +99,7 @@ public class Parser {
      * Non-terminal symbol of the grammar, represents more operators of the grammar,
      * and some other terminal symbols.
      *
-     * <elementary-expression> ::= <group> | <char> | <empty>
+     * <elementary-expression> ::= <group> | <char> | <any> | <empty>
      * 
      * @param node may be used during parsing to represent or modify the current
      *             state.
@@ -112,6 +112,10 @@ public class Parser {
 
         if (lexer.peek() == Token.CHARACTER) {
             return charExp();
+        }
+
+        if (lexer.peek() == Token.ANY) {
+            return anyExp();
         }
 
         if (lexer.peek() == Token.UNION) {
@@ -177,8 +181,19 @@ public class Parser {
      */
     private RegexNode charExp() {
         lexer.consume();
-        CharNode node = new CharNode(null, null, lexer.getConsumedSymbol());
-        return node;
+        return new CharNode(null, null, lexer.getConsumedSymbol());
+    }
+
+    /**
+     * Terminal symbol of the grammar, represents a any node in the grammar.
+     *
+     * <any> ::= '.'
+     * 
+     * @return new node if the parser was successful, or null otherwise.
+     */
+    private RegexNode anyExp() {
+        lexer.consume();
+        return new AnyNode(null, null);
     }
 
     /**
