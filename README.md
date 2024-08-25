@@ -8,9 +8,16 @@ This project demonstrates the implementation of a basic regex engine. It parses 
 
 By now the only supported features of the engine are:
 
-- '|' union
-- '\*' star
-- '()' group
+- [x] '|' union
+- [x] '\*' star
+- [x] '()' group
+- [x] '+' plus
+- [x] '?' question
+- [x] '.' any
+- [ ] '^' init
+- [ ] '$' eos
+- [ ] '[]' set
+- [ ] '-' range
 
 ### Compilation
 
