@@ -11,6 +11,7 @@ public enum Token {
     UNION, // '|'
     SLASH, // '\'
     ANY, // '.'
+    PLUS, // '+'
     CHARACTER, // A literal character
     EOF, // Defines the end of the expression
     NOT_FOUND, // Defined in case of a error
