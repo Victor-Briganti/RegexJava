@@ -130,6 +130,34 @@ public class Compiler {
     }
 
     /**
+     * Generate the question state.
+     * Creates a question state, associate this new state with its right side.
+     * This operator acts similar to the union operatro, its objective is to match
+     * the node or nothing.
+     * 
+     * @param node          Current node that is going to be a state
+     * @param previousState used to link the current state with the previous one
+     * @return The last state of the group
+     */
+    private State generateQuestionState(QuestionNode node, State previousState) {
+        if (node.getRight() == null) {
+            return null;
+        }
+
+        State state = new State("q" + Integer.toString(numStates++));
+        previousState.addHighestTransition(state, new EpsilonMatcher());
+
+        State nextState = astToStatesRec(node.getRight(), state);
+
+        State finalState = new State("q" + Integer.toString(numStates++));
+
+        nextState.addTransition(finalState, new EpsilonMatcher());
+        state.addTransition(finalState, new EpsilonMatcher());
+
+        return finalState;
+    }
+
+    /**
      * Generate the union state.
      * 
      * @param node          Current node that is going to be a state
@@ -189,6 +217,10 @@ public class Compiler {
 
         if (node instanceof PlusNode) {
             return generatePlusState((PlusNode) node, previousState);
+        }
+
+        if (node instanceof QuestionNode) {
+            return generateQuestionState((QuestionNode) node, previousState);
         }
 
         if (node instanceof UnionNode) {
