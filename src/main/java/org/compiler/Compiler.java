@@ -1,10 +1,9 @@
 package org.compiler;
 
 import org.engine.Engine;
-import org.matcher.CharacterMatcher;
-import org.matcher.EpsilonMatcher;
-import org.nodes.*;
 import org.parser.Parser;
+import org.matcher.*;
+import org.nodes.*;
 import org.state.*;
 
 /**
@@ -31,6 +30,21 @@ public class Compiler {
     private State generateCharState(CharNode node, State previousState) {
         State state = new State("q" + Integer.toString(numStates++));
         previousState.addTransition(state, new CharacterMatcher(node.getValue()));
+        return state;
+    }
+
+    /**
+     * Generate the any state.
+     * Associate the previous state with this one using a AnyMatcher, and
+     * then return the newly created state.
+     * 
+     * @param node          Current node that is going to be a state
+     * @param previousState used to link the current state with the previous one
+     * @return The created state
+     */
+    private State generateAnyState(AnyNode node, State previousState) {
+        State state = new State("q" + Integer.toString(numStates++));
+        previousState.addTransition(state, new AnyMatcher());
         return state;
     }
 
@@ -131,6 +145,10 @@ public class Compiler {
     private State generateState(RegexNode node, State previousState) {
         if (node instanceof CharNode) {
             return generateCharState((CharNode) node, previousState);
+        }
+
+        if (node instanceof AnyNode) {
+            return generateAnyState((AnyNode) node, previousState);
         }
 
         if (node instanceof GroupNode) {

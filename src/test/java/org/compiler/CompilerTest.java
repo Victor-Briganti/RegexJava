@@ -142,4 +142,18 @@ public class CompilerTest {
         assertTrue(engine.compute("c"));
     }
 
+    @Test
+    public void compilerExecutionAny() {
+        compiler = new Compiler(".");
+        compiler.compile();
+        Engine engine = compiler.getEngine();
+        assertTrue(engine.compute("a"));
+        assertTrue(engine.compute("b"));
+        assertTrue(engine.compute("c"));
+        assertTrue(engine.compute("d"));
+        assertTrue(engine.compute("e"));
+        assertTrue(engine.compute("f"));
+        assertTrue(engine.compute("g"));
+    }
+
 }
