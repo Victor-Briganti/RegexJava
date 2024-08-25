@@ -6,8 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 
 import org.junit.Test;
-import org.matcher.CharacterMatcher;
-import org.matcher.EpsilonMatcher;
+import org.matcher.*;
 
 import java.util.Set;
 
@@ -118,6 +117,27 @@ public class EngineTest {
 
         startState.addTransition(startState, new CharacterMatcher('a'));
         startState.addTransition(emptyState, new EpsilonMatcher());
+
+        engine.addState(startState);
+        engine.addState(emptyState);
+
+        engine.setStarState(startState);
+        engine.addFinalState(emptyState);
+
+        assertTrue(engine.compute("a"));
+        assertTrue(engine.compute("b"));
+        assertTrue(engine.compute("aaaaaaaaaa"));
+    }
+
+    @Test
+    public void anyOperator() {
+        engine = new Engine();
+
+        // Here we are trying to create a automaton that matches the ".".
+        State startState = new State("q0");
+        State emptyState = new State("q1");
+
+        startState.addTransition(emptyState, new AnyMatcher());
 
         engine.addState(startState);
         engine.addState(emptyState);
