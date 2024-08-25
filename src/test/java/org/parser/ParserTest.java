@@ -70,7 +70,7 @@ public class ParserTest {
         parser = new Parser(dummy);
         assertEquals(parser.parse(), 0);
         parser.getAST().printNode();
-        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+        assertEquals(0, byteOutput.toString().compareTo(dummy));
     }
 
     @Test

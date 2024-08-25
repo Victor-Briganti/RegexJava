@@ -24,11 +24,11 @@ public class StateTest {
     public void stateAddTransition() {
         state = new State("q0");
 
-        ArrayList<State> states = new ArrayList<State>();
-        ArrayList<PatternMatcher> matchers = new ArrayList<PatternMatcher>();
+        ArrayList<State> states = new ArrayList<>();
+        ArrayList<PatternMatcher> matchers = new ArrayList<>();
 
         for (int i = 0; i < 30; i++) {
-            String identifier = "q" + Integer.toString(i);
+            String identifier = "q" + i;
 
             states.add(new State(identifier));
             if (i == 29) {
@@ -52,11 +52,11 @@ public class StateTest {
     public void stateAddHighestTransition() {
         state = new State("q0");
 
-        ArrayList<State> states = new ArrayList<State>();
-        ArrayList<PatternMatcher> matchers = new ArrayList<PatternMatcher>();
+        ArrayList<State> states = new ArrayList<>();
+        ArrayList<PatternMatcher> matchers = new ArrayList<>();
 
         for (int i = 0; i < 30; i++) {
-            String identifier = "q" + Integer.toString(i);
+            String identifier = "q" + i;
 
             if (i == 29) {
                 states.addFirst(new State(identifier));

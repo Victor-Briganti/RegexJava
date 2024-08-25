@@ -28,7 +28,8 @@ public class Compiler {
      * @return The created state
      */
     private State generateCharState(CharNode node, State previousState) {
-        State state = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State state = new State("q" + numStates);
         previousState.addTransition(state, new CharacterMatcher(node.getValue()));
         return state;
     }
@@ -43,7 +44,8 @@ public class Compiler {
      * @return The created state
      */
     private State generateAnyState(AnyNode node, State previousState) {
-        State state = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State state = new State("q" + numStates);
         previousState.addTransition(state, new AnyMatcher());
         return state;
     }
@@ -63,7 +65,8 @@ public class Compiler {
             return null;
         }
 
-        State state = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State state = new State("q" + numStates);
         previousState.addHighestTransition(state, new EpsilonMatcher());
 
         return astToStatesRec(node.getRight(), state);
@@ -86,7 +89,8 @@ public class Compiler {
             return null;
         }
 
-        State state = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State state = new State("q" + numStates);
         previousState.addHighestTransition(state, new EpsilonMatcher());
 
         State nextState = astToStatesRec(node.getRight(), state);
@@ -97,7 +101,8 @@ public class Compiler {
 
         nextState.addTransition(state, new EpsilonMatcher());
 
-        State finalState = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State finalState = new State("q" + numStates);
 
         state.addTransition(finalState, new EpsilonMatcher());
         nextState.addTransition(finalState, new EpsilonMatcher());
@@ -120,7 +125,8 @@ public class Compiler {
             return null;
         }
 
-        State state = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State state = new State("q" + numStates);
         previousState.addHighestTransition(state, new EpsilonMatcher());
 
         State nextState = astToStatesRec(node.getRight(), state);
@@ -131,7 +137,8 @@ public class Compiler {
 
         nextState.addTransition(state, new EpsilonMatcher());
 
-        State finalState = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State finalState = new State("q" + numStates);
 
         nextState.addTransition(finalState, new EpsilonMatcher());
 
@@ -153,7 +160,8 @@ public class Compiler {
             return null;
         }
 
-        State state = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State state = new State("q" + numStates);
         previousState.addHighestTransition(state, new EpsilonMatcher());
 
         State nextState = astToStatesRec(node.getRight(), state);
@@ -162,7 +170,8 @@ public class Compiler {
             return null;
         }
 
-        State finalState = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State finalState = new State("q" + numStates);
 
         nextState.addTransition(finalState, new EpsilonMatcher());
         state.addTransition(finalState, new EpsilonMatcher());
@@ -187,7 +196,8 @@ public class Compiler {
             return null;
         }
 
-        State initState = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State initState = new State("q" + numStates);
         previousState.addHighestTransition(initState, new EpsilonMatcher());
 
         State leftState = astToStatesRec(unionNode.getLeft(), initState);
@@ -197,7 +207,8 @@ public class Compiler {
             return null;
         }
 
-        State finalState = new State("q" + Integer.toString(numStates++));
+        numStates++;
+        State finalState = new State("q" + numStates);
         leftState.addTransition(finalState, new EpsilonMatcher());
         rightState.addTransition(finalState, new EpsilonMatcher());
 

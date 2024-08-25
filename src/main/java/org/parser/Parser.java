@@ -8,7 +8,7 @@ import org.nodes.*;
  */
 public class Parser {
     // Lexer to tokenize the input string
-    private Lexer lexer;
+    private final Lexer lexer;
 
     // Pointer for the AST tree
     private RegexNode head;

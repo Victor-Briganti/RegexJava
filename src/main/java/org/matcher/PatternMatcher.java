@@ -10,7 +10,7 @@ public interface PatternMatcher {
      * 
      * @return true if is an epsilon, false otherwise.
      */
-    public boolean isEpsilon();
+    boolean isEpsilon();
 
     /**
      * Compares the given token with the stored token.
@@ -19,7 +19,7 @@ public interface PatternMatcher {
      * @param token character to be compare with the stored token.
      * @return true if the given token matches the stored token, false otherwise
      */
-    public boolean tokenMatch(char token);
+    boolean tokenMatch(char token);
 
     /**
      * Getter for the token stored on the current pattern matcher.
@@ -27,5 +27,5 @@ public interface PatternMatcher {
      * 
      * @return The token of this matcher
      */
-    public String getToken();
+    String getToken();
 }

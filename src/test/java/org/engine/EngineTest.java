@@ -26,10 +26,10 @@ public class EngineTest {
     public void finalStates() {
         engine = new Engine();
 
-        ArrayList<State> states = new ArrayList<State>();
+        ArrayList<State> states = new ArrayList<>();
 
         for (int i = 0; i < 30; i++) {
-            states.add(new State("q" + Integer.toString(i)));
+            states.add(new State("q" + i));
             engine.addFinalState(states.get(i));
         }
 
@@ -44,10 +44,10 @@ public class EngineTest {
     public void allStates() {
         engine = new Engine();
 
-        ArrayList<State> states = new ArrayList<State>();
+        ArrayList<State> states = new ArrayList<>();
 
         for (int i = 0; i < 30; i++) {
-            states.add(new State("q" + Integer.toString(i)));
+            states.add(new State("q" + i));
             engine.addState(states.get(i));
         }
 

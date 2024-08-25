@@ -41,7 +41,7 @@ public class State {
      */
     public State(String name) {
         this.name = name;
-        transitions = new ArrayList<Transition>();
+        transitions = new ArrayList<>();
     }
 
     /**

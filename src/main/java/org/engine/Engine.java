@@ -79,7 +79,7 @@ public class Engine {
      *         false otherwise.
      */
     private boolean executeRegex(String input) {
-        Stack<Context> stack = new Stack<Context>();
+        Stack<Context> stack = new Stack<>();
         stack.push(new Context(0, startState));
 
         while (!stack.isEmpty()) {
@@ -115,9 +115,9 @@ public class Engine {
      * Constructor for the execution engine
      */
     public Engine() {
-        states = new HashSet<State>();
+        states = new HashSet<>();
         startState = null;
-        finalStates = new HashSet<State>();
+        finalStates = new HashSet<>();
     }
 
     /**
@@ -163,15 +163,6 @@ public class Engine {
      */
     public Set<State> getFinalStates() {
         return finalStates;
-    }
-
-    /**
-     * Sets the set of final states of the regular expression.
-     * 
-     * @param finalStates The new set of final states to be set.
-     */
-    public void setFinalStates(Set<State> finalStates) {
-        this.finalStates = finalStates;
     }
 
     /**
