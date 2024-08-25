@@ -136,7 +136,7 @@ public class ParserTest {
 
     @Test
     public void parserPlusToken() {
-        String dummy = "a+b+c+d";
+        String dummy = "a?b+c+d";
         parser = new Parser(dummy);
         assertEquals(0, parser.parse());
         parser.getAST().printNode();
@@ -147,6 +147,25 @@ public class ParserTest {
     public void parserSpecialPlusToken() {
         String dummy = "\\++a+b+c+dE";
         String result = "++a+b+c+dE";
+        parser = new Parser(dummy);
+        assertEquals(0, parser.parse());
+        parser.getAST().printNode();
+        assertTrue(byteOutput.toString().compareTo(result) == 0);
+    }
+
+    @Test
+    public void parserQuestionToken() {
+        String dummy = "a?b?c?d";
+        parser = new Parser(dummy);
+        assertEquals(0, parser.parse());
+        parser.getAST().printNode();
+        assertTrue(byteOutput.toString().compareTo(dummy) == 0);
+    }
+
+    @Test
+    public void parserSpecialQuestionToken() {
+        String dummy = "\\??a?b?c?dE";
+        String result = "??a?b?c?dE";
         parser = new Parser(dummy);
         assertEquals(0, parser.parse());
         parser.getAST().printNode();
